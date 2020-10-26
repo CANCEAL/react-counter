@@ -24,7 +24,6 @@ class Counter extends Component {
                 <span> {this.state.number} </span>
                 <button onClick={() => this.onDecrease()}> - </button>
             </section>
-
         );
     }
 }
