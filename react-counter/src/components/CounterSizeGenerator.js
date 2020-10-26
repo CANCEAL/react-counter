@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Counter from "./Counter";
+import CounterGroupSum from './CounterGroupSum';
 
 class CounterSizeGenerator extends Component {
     constructor(props) {
@@ -8,13 +9,14 @@ class CounterSizeGenerator extends Component {
         this.onChange = this.onChange.bind(this);
 
         this.state = {
-            size: 0,
-        }
+            value: 0,
+            sum: 0
+        };
     }
 
     onChange(event) {
         this.setState(() => {
-        return {size: event.target.value};
+        return {value: event.target.value};
         });
     }
 
@@ -23,16 +25,25 @@ class CounterSizeGenerator extends Component {
         return Array.from(Array(number));
     }
 
+    addCount = (sumOfCounters) => {
+        this.setState((prevState) => ({sum : prevState.sum + sumOfCounters}));
+    }
+
     render() {
         return (
             <div>
                 <fieldset>
                     <legend>Counter Size Generator</legend>
                     <label>Size: </label>
-                    <input type="number" onChange={this.onChange} value={this.state.size}></input>
+                    <input type="number"
+                           onChange={this.onChange}
+                           value={this.state.value}>
+                    </input>
+                    
+                    <CounterGroupSum sumOfCounters={this.state.sum}/>
                 </fieldset>
-                
-                {this.counterArray(this.state.size).map(() => <Counter />)}
+
+                {this.counterArray(this.state.value).map(() => <Counter addCount={this.addCount}/>)}
             </div>
         );
     }
